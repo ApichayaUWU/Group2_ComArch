@@ -1,17 +1,25 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.io.*;
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Opt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        try {
+            // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
+            String filename = "src\\example.txt";
+            List<String[]> tokenizedAssembly = AssemblyTokenizerV1.tokenizeAssemblyFile(filename);
 
-        // Press Ctrl+R or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+            // แสดงผลโทเคนที่ถูกตัดแบบ list
+//            for (String[] tokens : tokenizedAssembly) {
+////                System.out.println(Arrays.toString(tokens));
+////            }
+            // แสดงผลโทเคนที่ถูกตัดเป็น String
+            for (String[] tokens : tokenizedAssembly) {
+                // รวมค่าใน tokens ให้เป็น String เดียว
+                System.out.println(String.join(",", tokens));
+            }
 
-            // Press Ctrl+D to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Cmd+F8.
-            System.out.println("i = " + i);
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
     }
 }
