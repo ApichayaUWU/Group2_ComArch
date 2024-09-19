@@ -27,27 +27,35 @@ public class ParserAssembly {
     public void parseCommand() throws Exception{
         if(tkz.peek().equals("add")){
             currentCode = "000";
+            tkz.consume();
             parseReg();
         }else if(tkz.peek().equals("nand")){
             currentCode = "001";
+            tkz.consume();
             parseReg();
         }else if(tkz.peek().equals("lw")){
             currentCode = "010";
+            tkz.consume();
             parseReg();
         }else if(tkz.peek().equals("sw")){
             currentCode = "011";
+            tkz.consume();
             parseReg();
         }else if(tkz.peek().equals("beq")){
             currentCode = "100";
+            tkz.consume();
             parseReg();
         }else if(tkz.peek().equals("jalr")){
             currentCode = "101";
+            tkz.consume();
             parseReg();
         }else if(tkz.peek().equals("halt")){
             currentCode = "110";
+            tkz.consume();
             parseInstruction();
         }else if(tkz.peek().equals("noop")){
             currentCode = "111";
+            tkz.consume();
             parseInstruction();
         }
     }
@@ -63,8 +71,8 @@ public class ParserAssembly {
         if(isNumber(tkz.peek())){
             Integer reg = Integer.parseInt(tkz.peek());
             if(reg < 7){
-                byte b = reg.byteValue();
-                String s = new String(String.valueOf(b));
+                String binaryString = Integer.toBinaryString(reg);
+                String s = new String(String.valueOf(binaryString));
                 currentCode = currentCode + s;
             }
         }
@@ -111,5 +119,8 @@ public class ParserAssembly {
         list.add("halt");
         list.add("noop");
         return list;
+    }
+    private String fillBinary(){
+
     }
 }
