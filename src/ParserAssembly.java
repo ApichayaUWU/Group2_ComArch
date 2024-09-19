@@ -5,8 +5,8 @@ public class ParserAssembly {
     private static final List<String> AssemblyCommand = CreateAssemblyCommand();
     private ArrayList<String> machineCoode = new ArrayList<>();
     private String currentCode ;
-    public ParserAssembly(Token tkz){
-        this.tkz = tkz;
+    public ParserAssembly(){
+//        this.tkz = tkz;
         this.currentCode = "";
     }
 
@@ -69,16 +69,20 @@ public class ParserAssembly {
     }
     public void parseReg() throws Exception{
         if(isNumber(tkz.peek())){
-            Integer reg = Integer.parseInt(tkz.peek());
-            if(reg < 7){
-                String binaryString = Integer.toBinaryString(reg);
-                String s = new String(String.valueOf(binaryString));
-                currentCode = currentCode + s;
+            if(tkz.peek().charAt(0) == '-'){
+                throw new Exception("incorrect reg");
+            }else {
+                int reg = Integer.parseInt(tkz.peek());
+                if(reg < 7){
+                    String r = FillBinary(reg,"reg");
+                    currentCode = currentCode + r;
+                }
             }
+
         }
     }
 
-    public void parseImm() throws Exception{
+    public void parseOffsetField() throws Exception{
 
     }
 
@@ -102,6 +106,9 @@ public class ParserAssembly {
         //check string is number
         int size = str.length();
         for (int i = 0; i < size; i++) {
+            if((i == 0) && (str.charAt(i) == '-')) {
+                i++;
+            }
             if (!Character.isDigit(str.charAt(i))) {
                 return false;
             }
@@ -120,7 +127,68 @@ public class ParserAssembly {
         list.add("noop");
         return list;
     }
-    private String fillBinary(){
+    public String FillBinary(Integer number,String type) throws Exception{
+        StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(number));
+        if(type.equals("reg")){
+            int size = binaryString.length();
+            if(size < 3){
+                int i = 3 - size;
+                while (i > 0){
+                    binaryString.insert(0, "0");
+                    i--;
+                }
+            }else if(size > 3){
+                throw new Exception("incorrect reg");
+            }else return binaryString.toString();
+        }else if(type.equals("offsetField")){
+            int size = binaryString.length();
+            if(size < 16){
+                int i = 16 - size;
+                while (i > 0){
+                    binaryString.insert(0, "0");
+                    i--;
+                }
+            }else if(size > 16){
+                throw new Exception("incorrect value");
+            }else return binaryString.toString();
+        }else{
+            throw new Exception("incorrect command");
+        }
+        return binaryString.toString();
+    }
 
+    public String TwosComplement(Integer number)throws Exception{
+        String binaryString = Integer.toBinaryString(number);
+        System.out.println(binaryString);
+        String TwosCom = binaryString.replace('1','2');
+        System.out.println("line 1 "+TwosCom);
+        TwosCom = TwosCom.replace('0','1');
+        System.out.println("line 2 "+TwosCom);
+        TwosCom = TwosCom.replace('2','0');
+        System.out.println("line 3 " + TwosCom);
+        int num = Integer.parseInt(TwosCom);
+        num = num + 1;
+        binaryString = Integer.toBinaryString(num);
+        System.out.println(binaryString);
+        StringBuilder binaryS = new StringBuilder(Integer.toBinaryString(num));
+        int size = binaryS.length();
+        System.out.println(binaryS);
+        if(size < 16){
+            int i = 16 - size;
+            String fillValue;
+            if(binaryS.charAt(0) == '1'){
+                fillValue = "1";
+            }else if(binaryS.charAt(0) == '0') {
+                fillValue = "0";
+            }else throw new Exception("unknown");
+            while (i > 0){
+                binaryS.insert(0, fillValue);
+                i--;
+            }
+        }else if(size > 16){
+            throw new Exception("incorrect value");
+        }else return binaryS.toString();
+
+        return binaryS.toString();
     }
 }
