@@ -85,7 +85,7 @@ public class BehavioralSimulator implements BSimulator{
     private void lw (String regA,String regB,String offsetField){ // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
-        int offset = Integer.parseInt(offsetField,2);
+        int offset = binaryStringToInteger(offsetField);
         reg[ValueB] = binaryStringToInteger(memory.get(offset+reg[ValueA]));
         line++;
         run(line);
@@ -94,7 +94,7 @@ public class BehavioralSimulator implements BSimulator{
     private void sw (String regA,String regB,String offsetField){ // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
-        int offset = Integer.parseInt(offsetField,2);
+        int offset = binaryStringToInteger(offsetField);
         String save = Integer.toBinaryString(reg[ValueB]);
         int ValueM = binaryStringToInteger(memory.get(offset+reg[ValueA])); //find memory address
         if (memory.size() <=  ValueM) //extent memory size
