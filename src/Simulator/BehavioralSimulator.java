@@ -22,7 +22,7 @@ public class BehavioralSimulator implements BSimulator{
     private void printInitial(){
         for (int i=0; i<memory.size() ; i++){
             //System.out.println("memory["+i+"]="+memory.get(i));
-            System.out.println("memory["+i+"]="+Integer.parseInt(memory.get(i),2));
+            System.out.println("memory["+i+"]="+convertNum(Integer.parseInt(memory.get(i),2)));
         }
     }
     private void printState(){
@@ -32,7 +32,7 @@ public class BehavioralSimulator implements BSimulator{
                 "\tmemory:");
         for (int i=0; i<memory.size() ; i++){
             //System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
-            System.out.println("\t\tmem[ "+i+" ] "+Integer.parseInt(memory.get(i),2));
+            System.out.println("\t\tmem[ "+i+" ] "+convertNum(Integer.parseInt(memory.get(i),2)));
         }
         System.out.println("\tregisters:");
         for (int i=0; i<reg.length ; i++){
@@ -85,8 +85,8 @@ public class BehavioralSimulator implements BSimulator{
     private void lw (String regA,String regB,String offsetField){ // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
-        int offset = binaryStringToInteger(offsetField);
-        reg[ValueB] = binaryStringToInteger(memory.get(offset+reg[ValueA]));
+        int offset = convertNum(Integer.parseInt(offsetField,2));
+        reg[ValueB] = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));
         line++;
         run(line);
     }
@@ -94,9 +94,9 @@ public class BehavioralSimulator implements BSimulator{
     private void sw (String regA,String regB,String offsetField){ // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
-        int offset = binaryStringToInteger(offsetField);
+        int offset = convertNum(Integer.parseInt(offsetField,2));
         String save = Integer.toBinaryString(reg[ValueB]);
-        int ValueM = binaryStringToInteger(memory.get(offset+reg[ValueA])); //find memory address
+        int ValueM = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));; //find memory address
         if (memory.size() <=  ValueM) //extent memory size
             for(int i = memory.size();i<=ValueM;i++) memory.add("0");
         memory.set(ValueM,save);
@@ -107,7 +107,7 @@ public class BehavioralSimulator implements BSimulator{
     private void beq (String regA,String regB,String offsetField){ // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
-        int offset = binaryStringToInteger(offsetField);
+        int offset = convertNum(Integer.parseInt(offsetField,2));
         if(reg[ValueA] == reg[ValueB]) line = line + 1 + offset;
         else line++;
         run(line);
@@ -138,18 +138,26 @@ public class BehavioralSimulator implements BSimulator{
         printState();
     }
 
-    private int binaryStringToInteger(String binaryString) {
-        // ตรวจสอบว่าเป็นจำนวนลบหรือไม่
-        if (binaryString.charAt(0) == '1') {
-            // กลับบิตทั้งหมด
-            String inverted = binaryString.replace('0', '2').replace('1', '0').replace('2', '1');
-            // บวก 1
-            int decimal = Integer.parseInt(inverted, 2) + 1;
-            // ทำค่าให้เป็นลบ
-            return -decimal;
-        } else {
-            // ถ้าเป็นจำนวนบวก แปลงตามปกติ
-            return Integer.parseInt(binaryString, 2);
+    public static int convertNum(int num) {
+        /* convert a 16-bit number into a 32-bit integer */
+        if ((num & (1<<15)) > 0 ) {
+            num -= (1<<16);
         }
+        return num;
     }
+
+//    private int binaryStringToInteger(String binaryString) {
+//        // ตรวจสอบว่าเป็นจำนวนลบหรือไม่
+//        if (binaryString.charAt(0) == '1') {
+//            // กลับบิตทั้งหมด
+//            String inverted = binaryString.replace('0', '2').replace('1', '0').replace('2', '1');
+//            // บวก 1
+//            int decimal = Integer.parseInt(inverted, 2) + 1;
+//            // ทำค่าให้เป็นลบ
+//            return -decimal;
+//        } else {
+//            // ถ้าเป็นจำนวนบวก แปลงตามปกติ
+//            return Integer.parseInt(binaryString, 2);
+//        }
+//    }
 }

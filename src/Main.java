@@ -31,5 +31,10 @@ public class Main {
         memory.add("0000000000000010");
         BSimulator sim = new BehavioralSimulator(memory);
         sim.run();
+
+//        String bi = Integer.toBinaryString(65535);
+//        String bi2 = Integer.toBinaryString(65535 & (1<<15));
+//        System.out.println(bi+"\n"+bi2);
+//        System.out.println(BehavioralSimulator.convertNum(65535));
     }
 }
