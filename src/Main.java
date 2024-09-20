@@ -36,5 +36,6 @@ public class Main {
 //        String bi2 = Integer.toBinaryString(65535 & (1<<15));
 //        System.out.println(bi+"\n"+bi2);
 //        System.out.println(BehavioralSimulator.convertNum(65535));
+
     }
 }

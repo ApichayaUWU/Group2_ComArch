@@ -52,7 +52,7 @@ public class BehavioralSimulator implements BSimulator{
         String opCode = MacCode.substring(0,3);
         String regA = MacCode.substring(3,6);
         String regB = MacCode.substring(6,9);
-        String destReg = MacCode.substring(22);;
+        String destReg = MacCode.substring(22);
         String offsetField = MacCode.substring(9);
         if(opCode.equals("000")) add(regA,regB,destReg);
         if(opCode.equals("001")) nand(regA,regB,destReg);
