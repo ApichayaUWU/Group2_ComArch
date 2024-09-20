@@ -67,7 +67,7 @@ public class BehavioralSimulator implements BSimulator{
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int ValueD = Integer.parseInt(destReg,2);
-        reg[ValueD] = reg[ValueA] + reg[ValueB];
+        if(ValueD != 0) reg[ValueD] = reg[ValueA] + reg[ValueB];
         line++;
         run(line);
     }
@@ -76,7 +76,7 @@ public class BehavioralSimulator implements BSimulator{
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int ValueD = Integer.parseInt(destReg,2);
-        reg[ValueD] = ~(reg[ValueA] & reg[ValueB]); //nand
+        if(ValueD != 0) reg[ValueD] = ~(reg[ValueA] & reg[ValueB]); //nand
         line++;
         run(line);
     }
@@ -85,7 +85,7 @@ public class BehavioralSimulator implements BSimulator{
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int offset = convertNum(Integer.parseInt(offsetField,2));
-        reg[ValueB] = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));
+        if(ValueB != 0) reg[ValueB] = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));
         line++;
         run(line);
     }
@@ -114,7 +114,7 @@ public class BehavioralSimulator implements BSimulator{
     private void jalr(String regA , String regB){ // J Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
-        reg[ValueB] = line + 1;
+        if(ValueB != 0) reg[ValueB] = line + 1;
         if(ValueA == ValueB) line++;
         else line = reg[ValueA];
         run(line);
