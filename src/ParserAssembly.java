@@ -166,11 +166,14 @@ public class ParserAssembly {
         System.out.println("line 2 "+TwosCom);
         TwosCom = TwosCom.replace('2','0');
         System.out.println("line 3 " + TwosCom);
-        int num = Integer.parseInt(TwosCom);
+        int num = Integer.parseInt(TwosCom,2);
+        System.out.println(num);
         num = num + 1;
-        binaryString = Integer.toBinaryString(num);
-        System.out.println(binaryString);
+        System.out.println("num" + num);
+//        binaryString = Integer.toBinaryString(num);
+//        System.out.println(binaryString);
         StringBuilder binaryS = new StringBuilder(Integer.toBinaryString(num));
+        System.out.println("BS"+binaryS);
         int size = binaryS.length();
         System.out.println(binaryS);
         if(size < 16){
