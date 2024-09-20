@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BehavioralSimulator implements BSimulator{
-    private ArrayList<String> memory = new ArrayList<String>();
+    private final ArrayList<String> memory;
     private int line;
     private int counter;
     private final int[] reg = new int[8];
@@ -95,7 +95,7 @@ public class BehavioralSimulator implements BSimulator{
         int ValueB = Integer.parseInt(regB,2);
         int offset = convertNum(Integer.parseInt(offsetField,2));
         String save = Integer.toBinaryString(reg[ValueB]);
-        int ValueM = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));; //find memory address
+        int ValueM = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));//find memory address
         if (memory.size() <=  ValueM) //extent memory size
             for(int i = memory.size();i<=ValueM;i++) memory.add("0");
         memory.set(ValueM,save);
