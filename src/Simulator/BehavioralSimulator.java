@@ -138,7 +138,7 @@ public class BehavioralSimulator implements BSimulator{
         printState();
     }
 
-    public static int convertNum(int num) {
+    private int convertNum(int num) {
         /* convert a 16-bit number into a 32-bit integer */
         if ((num & (1<<15)) > 0 ) {
             num -= (1<<16);
