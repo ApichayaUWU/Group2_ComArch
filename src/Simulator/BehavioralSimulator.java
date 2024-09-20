@@ -1,21 +1,20 @@
 package Simulator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BehavioralSimulator implements BSimulator{
     private ArrayList<String> memory = new ArrayList<String>();
     private int line;
-    private int couter;
-    private int[] reg = new int[8];
+    private int counter;
+    private final int[] reg = new int[8];
 
 
     public BehavioralSimulator(ArrayList<String> memory){
         this.memory = memory;
-        couter = 0;
+        counter = 0;
         line = 0;
-        for (int i=0; i< reg.length ; i++){
-            reg[i] = 0;
-        }
+        Arrays.fill(reg, 0);
         printInitial();
     }
 
@@ -47,7 +46,7 @@ public class BehavioralSimulator implements BSimulator{
 
     private void run(int line){
         printState();
-        couter++;
+        counter++;
         String MacCode = memory.get(line);
         String opCode = MacCode.substring(0,3);
         String regA = MacCode.substring(3,6);
@@ -133,7 +132,7 @@ public class BehavioralSimulator implements BSimulator{
 
     private void printFinal(){
         System.out.println("machine halted\n" +
-                "total of "+couter+" instructions executed\n" +
+                "total of "+ counter +" instructions executed\n" +
                 "final state of machine:");
         printState();
     }
