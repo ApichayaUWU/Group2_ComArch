@@ -21,7 +21,7 @@ public class BehavioralSimulator implements BSimulator{
     private void printInitial(){
         for (int i=0; i<memory.size() ; i++){
             //System.out.println("memory["+i+"]="+memory.get(i));
-            System.out.println("memory["+i+"]="+convertNum(Integer.parseInt(memory.get(i),2)));
+            System.out.println("memory["+i+"]="+Integer.parseInt(memory.get(i),2));
         }
     }
     private void printState(){
@@ -31,7 +31,7 @@ public class BehavioralSimulator implements BSimulator{
                 "\tmemory:");
         for (int i=0; i<memory.size() ; i++){
             //System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
-            System.out.println("\t\tmem[ "+i+" ] "+convertNum(Integer.parseInt(memory.get(i),2)));
+            System.out.println("\t\tmem[ "+i+" ] "+Integer.parseInt(memory.get(i),2));
         }
         System.out.println("\tregisters:");
         for (int i=0; i<reg.length ; i++){
