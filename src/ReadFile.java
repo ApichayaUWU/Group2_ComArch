@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class ReadFile {
     public static void main(String[] args) {
         try {
             // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
