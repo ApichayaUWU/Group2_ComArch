@@ -6,17 +6,20 @@ public class Main {
         try {
             // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
             String filename = "src\\example.txt";
-            List<String[]> tokenizedAssembly = AssemblyTokenizerV1.tokenizeAssemblyFile(filename);
+            List<String[]> tokenizedAssembly = AssemblyTokenizerV2.tokenizeAssemblyFile(filename);
 
-            // แสดงผลโทเคนที่ถูกตัดแบบ list
-//            for (String[] tokens : tokenizedAssembly) {
-////                System.out.println(Arrays.toString(tokens));
-////            }
-            // แสดงผลโทเคนที่ถูกตัดเป็น String
+            // ใช้ StringBuilder เพื่อรวม String[] แต่ละบรรทัดเข้าด้วยกัน
+            StringBuilder src = new StringBuilder();
+
             for (String[] tokens : tokenizedAssembly) {
-                // รวมค่าใน tokens ให้เป็น String เดียว
-                System.out.println(String.join(",", tokens));
+                // แปลง String[] ให้เป็น String และเชื่อมด้วยเครื่องหมาย !
+                String line = String.join(",", tokens);
+                src.append(line);
+                src.append(" ! "); // เพิ่ม ! หลังจากแต่ละบรรทัด
             }
+
+            // แสดงผลรวมของทุกบรรทัดที่เชื่อมกัน
+            System.out.println(src.toString());
 
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());

@@ -84,19 +84,11 @@ public class AssemblyTokenizerV2 implements Tokenizer {
     // Helper method to convert tokens into the LinkedList
     private void createList() throws SyntaxError {
         int tokenIndex = 0; // Track the token index to handle comment after 4 tokens
-        StringBuilder comment = new StringBuilder(); // To accumulate comment
+
 
         for (String token : tokens) {
             token = token.trim(); // Remove leading/trailing whitespace
             if (token.isEmpty()) continue; // Skip empty tokens
-
-            // After the 4th token, treat the rest as a comment
-            if (tokenIndex >= 4) {
-                if (comment.length() > 0) {
-                    comment.append(" "); // Add space between comment words
-                }
-                comment.append(token); // Append token to comment
-            } else {
                 // Add numeric values (e.g., immediate values, addresses)
                 if (token.matches("\\d+|-\\d+")) {
                     list.addLast(token);
@@ -105,23 +97,15 @@ public class AssemblyTokenizerV2 implements Tokenizer {
                 else if (token.matches("[A-Za-z][A-Za-z0-9]*")) {
                     list.addLast(token);
                 }
-                // Add special characters (e.g., '!')
-                else if (token.equals("!")) {
-                    list.addLast(token);
-                }
                 // Handle invalid tokens by throwing an error
                 else {
                     System.out.println("Invalid token: " + token);
                     throw new SyntaxError("Invalid token");
                 }
                 tokenIndex++; // Increment the token index
-            }
+
         }
 
-        // If there is any comment, add it as a single token
-        if (comment.length() > 0) {
-            list.addLast(comment.toString());
-        }
     }
 
     private boolean isCharacter(String s) {
