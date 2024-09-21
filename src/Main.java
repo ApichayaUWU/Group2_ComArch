@@ -4,15 +4,20 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // Press Opt+Enter with your caret at the highlighted text to see how
         // IntelliJ IDEA suggests fixing it.
+        ReadFile r ;
+
 //        System.out.printf("Hello and welcome!");
 //            int number = 45;
 //            String b = "5555";
 //            String binaryString = Integer.toBinaryString(number);
 //            binaryString = binaryString + "49";
 //            System.out.println(b+binaryString);  // Output: 101101
-        String s = "123456789";
-        System.out.println(s.charAt(0));
-        System.out.println(s.length());
+//        String s = "123456789start";
+//        System.out.println(s.contains("start"));
+//        System.out.println(s.replace("sta",""));
+//        System.out.println(s);
+//        System.out.println(s.charAt(0));
+//        System.out.println(s.length());
 //        ParserAssembly p = new ParserAssembly();
 //        String s =p.FillBinary(50);
 //        System.out.println(s);
