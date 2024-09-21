@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class ReadFile {
-    public static void main(String[] args) {
+    public static void readfile(String[] args) {
         try {
             // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
             String filename = "src\\example.txt";
