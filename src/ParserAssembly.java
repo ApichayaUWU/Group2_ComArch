@@ -3,13 +3,18 @@ import java.util.List;
 public class ParserAssembly {
     private Token tkz;
     private static final List<String> AssemblyCommand = CreateAssemblyCommand();
-    private ArrayList<String> machineCoode = new ArrayList<>();
+    private ArrayList<String> machineCode = new ArrayList<>();
     private String currentCode ;
+    private ArrayList<String> label = new ArrayList<>();
+    private ArrayList<Integer> address = new ArrayList<Integer>();
     public ParserAssembly(){
 //        this.tkz = tkz;
         this.currentCode = "";
     }
 
+    public ArrayList<String> getMachineCode(){
+        return machineCode;
+    }
     public void parseCode() throws Exception{
         if(tkz.hasNextToken()){
             this.parseInstruction();
@@ -20,7 +25,7 @@ public class ParserAssembly {
         if(AssemblyCommand.contains(tkz.peek())){
             parseCommand();
         }else{
-            parseLable();
+            parseLabel();
         }
     }
 
@@ -28,19 +33,41 @@ public class ParserAssembly {
         if(tkz.peek().equals("add")){
             currentCode = "000";
             tkz.consume();
-            parseReg();
+            while(!tkz.peek().equals("!")){
+                parseReg();
+                tkz.consume();
+            }
+            if(tkz.peek().equals("!")) {
+                parseGapRType();
+                tkz.consume();
+                parseInstruction();
+            }
         }else if(tkz.peek().equals("nand")){
             currentCode = "001";
             tkz.consume();
-            parseReg();
+            while(!tkz.peek().equals("!")){
+                parseReg();
+                tkz.consume();
+            }
+            if(tkz.peek().equals("!")) {
+                parseGapRType();
+                tkz.consume();
+                parseInstruction();
+            }
         }else if(tkz.peek().equals("lw")){
             currentCode = "010";
             tkz.consume();
-            parseReg();
+            for(int i=0; i<2; i++) {
+                parseReg();
+                tkz.consume();
+            }
         }else if(tkz.peek().equals("sw")){
             currentCode = "011";
             tkz.consume();
-            parseReg();
+            for(int i=0; i<2; i++) {
+                parseReg();
+                tkz.consume();
+            }
         }else if(tkz.peek().equals("beq")){
             currentCode = "100";
             tkz.consume();
@@ -48,24 +75,58 @@ public class ParserAssembly {
         }else if(tkz.peek().equals("jalr")){
             currentCode = "101";
             tkz.consume();
-            parseReg();
+            while(!tkz.peek().equals("!")){
+                parseReg();
+                tkz.consume();
+            }
+            if(tkz.peek().equals("!")) {
+                parseGapJType();
+                tkz.consume();
+                parseInstruction();
+            }
         }else if(tkz.peek().equals("halt")){
             currentCode = "110";
             tkz.consume();
-            parseInstruction();
+            if(tkz.peek().equals("!")) {
+                parseGapOType();
+                tkz.consume();
+                parseInstruction();
+            }
+
         }else if(tkz.peek().equals("noop")){
             currentCode = "111";
             tkz.consume();
-            parseInstruction();
+            if(tkz.peek().equals("!")) {
+                parseGapOType();
+                tkz.consume();
+                parseInstruction();
+            }
+        }else{
+            parseLabel();
         }
     }
 
-    public void parseLable() throws Exception{
-
+    public void parseLabel() throws Exception{
+        if(!label.contains(tkz.peek())){
+            label.add(tkz.peek());
+            address.add(machineCode.size());
+        }else{
+            throw new Exception("repeat label");
+        }
     }
 
     public void parseFill() throws Exception{
-
+        if(isNumber(tkz.peek())) {
+            int num = Integer.parseInt(tkz.peek());
+            if (num <= 32767 && num >= -32768) {
+                String value = TwosComplement(num);
+                currentCode = currentCode + value;
+                machineCode.add(currentCode);
+                while(!tkz.peek().equals("!")){
+                    tkz.consume();
+                }
+            }
+        }
     }
     public void parseReg() throws Exception{
         if(isNumber(tkz.peek())){
@@ -73,8 +134,8 @@ public class ParserAssembly {
                 throw new Exception("incorrect reg");
             }else {
                 int reg = Integer.parseInt(tkz.peek());
-                if(reg < 7){
-                    String r = FillBinary(reg,"reg");
+                if(reg <= 7){
+                    String r = FillBinary(reg);
                     currentCode = currentCode + r;
                 }
             }
@@ -84,50 +145,73 @@ public class ParserAssembly {
 
     public void parseOffsetField() throws Exception{
         if(isNumber(tkz.peek())){
-            if(tkz.peek().charAt(0) == '-'){
-                int num = Integer.parseInt(tkz.peek());
-                String offset = TwosComplement(num,true);
+            int num = Integer.parseInt(tkz.peek());
+            if(num <= 32767 && num >= -32768){
+                String offset = TwosComplement(num);
                 currentCode = currentCode + offset;
-            }else {
-                int num = Integer.parseInt(tkz.peek());
-                if(num < 7){
-                    String offset = TwosComplement(num,false);
-                    currentCode = currentCode + offset;
-                }
             }
-
+        }else if(label.contains(tkz.peek())){
+            int index = label.indexOf(tkz.peek());
+            int value = address.get(index);
+            if (value <= 32767 && value >= -32768) {
+                String offset = TwosComplement(value);
+                currentCode = currentCode + offset;
+            }
         }
+//            if(tkz.peek().charAt(0) == '-'){
+//                int num = Integer.parseInt(tkz.peek());
+//                String offset = TwosComplement(num);
+//                currentCode = currentCode + offset;
+//            }else {
+//                int num = Integer.parseInt(tkz.peek());
+//                if(num < 7){
+//                    String offset = TwosComplement(num);
+//                    currentCode = currentCode + offset;
+//                }
+//            }
 
     }
 
     public void parseGapRType() throws Exception{
-
+        StringBuilder code = new StringBuilder(currentCode);
+        code.insert(8,"0000000000000");
+        currentCode = code.toString();
+        machineCode.add(currentCode);
+        currentCode = "";
     }
 
     public void parseGapJType() throws Exception{
-
+        currentCode = currentCode + "0000000000000000";
+        machineCode.add(currentCode);
+        currentCode = "";
     }
 
     public void parseGapOType() throws Exception{
-
+        currentCode = currentCode + "0000000000000000000000";
+        machineCode.add(currentCode);
+        currentCode = "";
     }
 
     public void parseGap31_25()throws Exception{
 
     }
 
+    public void parseComment() throws Exception{
+
+    }
+
     private boolean isNumber(String str) {
         //check string is number
         int size = str.length();
-        for (int i = 0; i < size; i++) {
-            if((i == 0) && (str.charAt(i) == '-')) {
-                i++;
-            }
-            if (!Character.isDigit(str.charAt(i))) {
-                return false;
+        if((str.charAt(0) == '-')) {
+            for (int i = 1; i < size; i++) {
+                if (!Character.isDigit(str.charAt(i))) {
+                    return false;
+                }
             }
         }
-        return size > 0;
+
+        return true;
     }
     private static List<String> CreateAssemblyCommand(){
         List<String> list = new ArrayList<>();

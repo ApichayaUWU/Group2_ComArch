@@ -10,14 +10,14 @@ public class Main {
 //            String binaryString = Integer.toBinaryString(number);
 //            binaryString = binaryString + "49";
 //            System.out.println(b+binaryString);  // Output: 101101
-//        String s = "123456789";
-//        System.out.println(s.indexOf('9'));
-//        System.out.println(s.length());
-        ParserAssembly p = new ParserAssembly();
-        String s =p.FillBinary(50);
-        System.out.println(s);
-        String t = p.TwosComplement(-50);
-        System.out.println(t);
+        String s = "123456789";
+        System.out.println(s.charAt(0));
+        System.out.println(s.length());
+//        ParserAssembly p = new ParserAssembly();
+//        String s =p.FillBinary(50);
+//        System.out.println(s);
+//        String t = p.TwosComplement(-50);
+//        System.out.println(t);
         // Press Ctrl+R or click the green arrow button in the gutter to run the code.
 //        for (int i = 1; i <= 5; i++) {
 //
