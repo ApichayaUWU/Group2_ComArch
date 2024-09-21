@@ -1,31 +1,28 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
 
-public class ReadFile {
-    public static void main(String[] args)  throws IOException, SyntaxError,Exception {
+interface ReadAssembly{
+    public void genarateMachineCode(String fileName0) throws IOException, SyntaxError,Exception ;
+    public ArrayList<String> getMachineCode();
+}
+public class ReadFile implements ReadAssembly{
+    private ParserAssembly PA ;
+    public ReadFile(String fileName) throws Exception {
+        genarateMachineCode(fileName);
+    }
+    @Override
+    public void genarateMachineCode(String fileName)  throws IOException, SyntaxError,Exception {
         // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
-        String filename = "src\\test2.txt";
-        AssemblyTokenizerV2 tkz = new AssemblyTokenizerV2(filename);
+//        fileName = "src\\test2.txt";
+        AssemblyTokenizerV2 tkz = new AssemblyTokenizerV2(fileName);
         tkz.printToken();
         ParserAssembly pa = new ParserAssembly(tkz);
         pa.parseCode();
         pa.print();
-//        List<String> tokenizedAssembly = tkz.getTokensList();
-//        System.out.println(tkz.peek());
-//        System.out.println(tkz.consume());
-//        System.out.println(tkz.peek());
-        // ใช้ StringBuilder เพื่อรวม String[] แต่ละบรรทัดเข้าด้วยกัน
-//            StringBuilder src = new StringBuilder();
-//
-//            for (String tokens : tokenizedAssembly) {
-//                // แปลง String[] ให้เป็น String และเชื่อมด้วยเครื่องหมาย !
-//                String line = String.join(",", tokens);
-//                src.append(line);
-//            }
+    }
 
-        // แสดงผลรวมของทุกบรรทัดที่เชื่อมกัน
-
-
-
+    @Override
+    public ArrayList<String> getMachineCode() {
+        return PA.getMachineCode();
     }
 }
