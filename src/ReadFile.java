@@ -4,7 +4,7 @@ import java.util.*;
 public class ReadFile {
     public static void main(String[] args)  throws IOException, SyntaxError,Exception {
         // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
-        String filename = "src\\example.txt";
+        String filename = "src\\test2.txt";
         AssemblyTokenizerV2 tkz = new AssemblyTokenizerV2(filename);
         tkz.printToken();
         ParserAssembly pa = new ParserAssembly(tkz);

@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 import java.util.List;
 public class ParserAssembly {
@@ -25,7 +27,7 @@ public class ParserAssembly {
         int i=0;
         while(tkz.hasNextToken()) {
             if (AssemblyCommand.contains(tkz.peek())) {
-                System.out.println("command   " + tkz.peek());
+                System.out.println("command   " + tkz.peek() +"  " + i++);
                 parseCommand();
             }else {
                 System.out.println("label" + tkz.peek());
@@ -44,6 +46,7 @@ public class ParserAssembly {
                 parseReg();
             }
             parseGapRType();
+            System.out.println("your here ?" + tkz.peek());
             parseComment();
 //            if(tkz.peek().equals("!")) {
 //
@@ -204,6 +207,7 @@ public class ParserAssembly {
                 String offset = TwosComplement(num);
                 currentCode = currentCode + offset;
                 machineCode.add(currentCode);
+                System.out.println("what add offset num" + currentCode);
                 currentCode = "";
                 tkz.consume();
             }
@@ -229,10 +233,10 @@ public class ParserAssembly {
         while(pc < machineCode.size()){
             int index = 0;
             String code = machineCode.get(pc);
-//            System.out.println("vakmvoppnvoanval"+code);
+            System.out.println("code for fill   "+code);
             while(index < label.size()){
                 String var = label.get(index);
-//                System.out.println("youuusnpaspcoa'"+var+code);
+                System.out.println("youuusnpaspcoa'"+var+code);
                 if(code.contains(var)){
 //                    System.out.println("vaknvbibsjnlck a");
                     int adLabel = address.get(index);
@@ -259,20 +263,21 @@ public class ParserAssembly {
         code.insert(8,"0000000000000");
         currentCode = code.toString();
         machineCode.add(currentCode);
+        System.out.println("what add R type" + currentCode);
         currentCode = "";
-        tkz.consume();
     }
 
     public void parseGapJType() throws Exception{
         currentCode = currentCode + "0000000000000000";
         machineCode.add(currentCode);
+        System.out.println("what add J type" + currentCode);
         currentCode = "";
-        tkz.consume();
     }
 
     public void parseGapOType() throws Exception{
         currentCode = currentCode + "0000000000000000000000";
         machineCode.add(currentCode);
+        System.out.println("what add 0 type" + currentCode);
         currentCode = "";
     }
 
@@ -314,9 +319,12 @@ public class ParserAssembly {
         return list;
     }
     public void print(){
-        for (String s : machineCode) {
-            System.out.println(s);
-        }
+        System.out.println(label.size());
+        System.out.println(label);
+        System.out.println(address.size());
+        System.out.println(address);
+        System.out.println(machineCode.size());
+        System.out.println(machineCode);
     }
     public String FillBinary(Integer number) throws Exception{
         StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(number));
