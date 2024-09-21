@@ -21,6 +21,7 @@ public class AssemblyTokenizerV2 implements Tokenizer {
     public static String[] tokenizeLine(String line) {
         // Remove leading/trailing whitespace and split by space or special characters
         return line.trim().split("\\s+");
+
     }
 
     // Method to read and tokenize an entire assembly file
