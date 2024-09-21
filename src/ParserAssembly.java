@@ -83,6 +83,20 @@ public class ParserAssembly {
     }
 
     public void parseOffsetField() throws Exception{
+        if(isNumber(tkz.peek())){
+            if(tkz.peek().charAt(0) == '-'){
+                int num = Integer.parseInt(tkz.peek());
+                String offset = TwosComplement(num,true);
+                currentCode = currentCode + offset;
+            }else {
+                int num = Integer.parseInt(tkz.peek());
+                if(num < 7){
+                    String offset = TwosComplement(num,false);
+                    currentCode = currentCode + offset;
+                }
+            }
+
+        }
 
     }
 
@@ -127,71 +141,70 @@ public class ParserAssembly {
         list.add("noop");
         return list;
     }
-    public String FillBinary(Integer number,String type) throws Exception{
-        StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(number));
-        if(type.equals("reg")){
-            int size = binaryString.length();
-            if(size < 3){
-                int i = 3 - size;
-                while (i > 0){
-                    binaryString.insert(0, "0");
-                    i--;
-                }
-            }else if(size > 3){
-                throw new Exception("incorrect reg");
-            }else return binaryString.toString();
-        }else if(type.equals("offsetField")){
-            int size = binaryString.length();
-            if(size < 16){
-                int i = 16 - size;
-                while (i > 0){
-                    binaryString.insert(0, "0");
-                    i--;
-                }
-            }else if(size > 16){
-                throw new Exception("incorrect value");
-            }else return binaryString.toString();
-        }else{
-            throw new Exception("incorrect command");
-        }
-        return binaryString.toString();
+    public String FillBinary(Integer number) throws Exception{
+        return Integer.toBinaryString(number).substring(3);
+//        if(type.equals("reg")){
+//            int size = binaryString.length();
+//            if(size < 3){
+//                int i = 3 - size;
+//                while (i > 0){
+//                    binaryString.insert(0, "0");
+//                    i--;
+//                }
+//            }else if(size > 3){
+//                throw new Exception("incorrect reg");
+//            }else return binaryString.toString();
+//        }else if(type.equals("offsetField")){
+//            int size = binaryString.length();
+//            if(size < 16){
+//                int i = 16 - size;
+//                while (i > 0){
+//                    binaryString.insert(0, "0");
+//                    i--;
+//                }
+//            }else if(size > 16){
+//                throw new Exception("incorrect value");
+//            }else return binaryString.toString();
+//        }else{
+//            throw new Exception("incorrect command");
+//        }
     }
 
     public String TwosComplement(Integer number)throws Exception{
-        String binaryString = Integer.toBinaryString(number);
-        System.out.println(binaryString);
-        String TwosCom = binaryString.replace('1','2');
-        System.out.println("line 1 "+TwosCom);
-        TwosCom = TwosCom.replace('0','1');
-        System.out.println("line 2 "+TwosCom);
-        TwosCom = TwosCom.replace('2','0');
-        System.out.println("line 3 " + TwosCom);
-        int num = Integer.parseInt(TwosCom,2);
-        System.out.println(num);
-        num = num + 1;
-        System.out.println("num" + num);
-//        binaryString = Integer.toBinaryString(num);
+        return Integer.toBinaryString(number).substring(16);
 //        System.out.println(binaryString);
-        StringBuilder binaryS = new StringBuilder(Integer.toBinaryString(num));
-        System.out.println("BS"+binaryS);
-        int size = binaryS.length();
-        System.out.println(binaryS);
-        if(size < 16){
-            int i = 16 - size;
-            String fillValue;
-            if(binaryS.charAt(0) == '1'){
-                fillValue = "1";
-            }else if(binaryS.charAt(0) == '0') {
-                fillValue = "0";
-            }else throw new Exception("unknown");
-            while (i > 0){
-                binaryS.insert(0, fillValue);
-                i--;
-            }
-        }else if(size > 16){
-            throw new Exception("incorrect value");
-        }else return binaryS.toString();
+//        String TwosCom = binaryString.replace('1','2');
+//        System.out.println("line 1 "+TwosCom);
+//        TwosCom = TwosCom.replace('0','1');
+//        System.out.println("line 2 "+TwosCom);
+//        TwosCom = TwosCom.replace('2','0');
+//        System.out.println("line 3 " + TwosCom);
+//        int num = Integer.parseInt(TwosCom,2);
+//        System.out.println(num);
+//        num = num + 1;
+//        System.out.println("num" + num);
+////        binaryString = Integer.toBinaryString(num);
+////        System.out.println(binaryString);
+//        StringBuilder binaryS = new StringBuilder(Integer.toBinaryString(num));
+//        System.out.println("BS"+binaryS);
+//        int size = binaryS.length();
+//        System.out.println(binaryS);
+//        if(size < 16){
+//            int i = 16 - size;
+//            String fillValue;
+//            if(binaryS.charAt(0) == '1'){
+//                fillValue = "1";
+//            }else if(binaryS.charAt(0) == '0') {
+//                fillValue = "0";
+//            }else throw new Exception("unknown");
+//            while (i > 0){
+//                binaryS.insert(0, fillValue);
+//                i--;
+//            }
+//        }else if(size > 16){
+//            throw new Exception("incorrect value");
+//        }else return binaryS.toString();
+//
 
-        return binaryS.toString();
     }
 }

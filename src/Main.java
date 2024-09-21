@@ -14,9 +14,9 @@ public class Main {
 //        System.out.println(s.indexOf('9'));
 //        System.out.println(s.length());
         ParserAssembly p = new ParserAssembly();
-        String s =p.FillBinary(50,"offsetField");
+        String s =p.FillBinary(50);
         System.out.println(s);
-        String t = p.TwosComplement(50);
+        String t = p.TwosComplement(-50);
         System.out.println(t);
         // Press Ctrl+R or click the green arrow button in the gutter to run the code.
 //        for (int i = 1; i <= 5; i++) {
