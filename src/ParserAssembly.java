@@ -252,7 +252,7 @@ public class ParserAssembly {
     }
     public void parseGapRType() throws Exception{
         StringBuilder code = new StringBuilder(currentCode);
-        code.insert(8,"0000000000000");
+        code.insert(9,"0000000000000");
         currentCode = code.toString();
         machineCode.add(currentCode);
 //        System.out.println("what add R type" + currentCode);
