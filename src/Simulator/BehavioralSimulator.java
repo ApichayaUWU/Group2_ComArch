@@ -1,5 +1,7 @@
 package Simulator;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,9 +10,10 @@ public class BehavioralSimulator implements BSimulator{
     private int line;
     private int counter;
     private final int[] reg = new int[8];
+    FileWriter myWriter = new FileWriter("src\\output.txt");
 
 
-    public BehavioralSimulator(ArrayList<String> memory){
+    public BehavioralSimulator(ArrayList<String> memory) throws IOException {
         this.memory = memory;
         counter = 0;
         line = 0;
@@ -18,33 +21,42 @@ public class BehavioralSimulator implements BSimulator{
         printInitial();
     }
 
-    private void printInitial(){
+    private void printInitial() throws IOException {
         for (int i=0; i<memory.size() ; i++){
             //System.out.println("memory["+i+"]="+memory.get(i));
-            System.out.println("memory["+i+"]="+Integer.parseInt(memory.get(i),2));
+            System.out.println("memory["+i+"]="+memory.get(i));
+            myWriter.write("mem[ "+i+" ] "+memory.get(i)+"\n");
         }
     }
-    private void printState(){
+    private void printState() throws IOException {
         System.out.println("@@@\n" +
                 "state:\n" +
                 "\tpc "+line+"\n" +
                 "\tmemory:");
+        myWriter.write("@@@\n" +
+                "state:\n" +
+                "\tpc "+line+"\n" +
+                "\tinstructions "+counter+"\n" +
+                "\tmemory:\n");
         for (int i=0; i<memory.size() ; i++){
-            //System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
-            System.out.println("\t\tmem[ "+i+" ] "+Integer.parseInt(memory.get(i),2));
+            System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
+            myWriter.write("\t\tmem[ "+i+" ] "+memory.get(i)+"\n");
         }
         System.out.println("\tregisters:");
+        myWriter.write("\tregisters:\n");
         for (int i=0; i<reg.length ; i++){
             System.out.println("\t\treg[ "+i+" ] "+reg[i]);
+            myWriter.write("\t\treg[ "+i+" ] "+reg[i]+"\n");
         }
         System.out.println("end state");
+        myWriter.write("end state");
     }
     @Override
-    public void run() {
+    public void run() throws IOException {
         run(0);
     }
 
-    private void run(int line){
+    private void run(int line) throws IOException {
         printState();
         counter++;
         String MacCode = memory.get(line);
@@ -63,7 +75,7 @@ public class BehavioralSimulator implements BSimulator{
         if(opCode.equals("111")) noop();
     }
 
-    private void add (String regA,String regB,String destReg){ // R Type
+    private void add (String regA,String regB,String destReg) throws IOException { // R Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int ValueD = Integer.parseInt(destReg,2);
@@ -72,7 +84,7 @@ public class BehavioralSimulator implements BSimulator{
         run(line);
     }
 
-    private void nand (String regA,String regB,String destReg){ // R Type
+    private void nand (String regA,String regB,String destReg) throws IOException { // R Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int ValueD = Integer.parseInt(destReg,2);
@@ -81,7 +93,7 @@ public class BehavioralSimulator implements BSimulator{
         run(line);
     }
 
-    private void lw (String regA,String regB,String offsetField){ // I Type
+    private void lw (String regA,String regB,String offsetField) throws IOException { // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int offset = convertNum(Integer.parseInt(offsetField,2));
@@ -90,20 +102,20 @@ public class BehavioralSimulator implements BSimulator{
         run(line);
     }
 
-    private void sw (String regA,String regB,String offsetField){ // I Type
+    private void sw (String regA,String regB,String offsetField) throws IOException { // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int offset = convertNum(Integer.parseInt(offsetField,2));
         String save = extendSignBit(reg[ValueB]);
-        int ValueM = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));//find memory address
-        if (memory.size() <=  ValueM) //extent memory size
-            for(int i = memory.size();i<=ValueM;i++) memory.add("0");
-        memory.set(ValueM,save);
+        if (memory.size() <=  offset+reg[ValueA]) //extent memory size
+            for(int i = memory.size();i<=offset+reg[ValueA];i++) memory.add("0");
+        //int ValueM = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));//find memory address
+        memory.set(offset+reg[ValueA],save);
         line++;
         run(line);
     }
 
-    private void beq (String regA,String regB,String offsetField){ // I Type
+    private void beq (String regA,String regB,String offsetField) throws IOException { // I Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int offset = convertNum(Integer.parseInt(offsetField,2));
@@ -111,7 +123,7 @@ public class BehavioralSimulator implements BSimulator{
         else line++;
         run(line);
     }
-    private void jalr(String regA , String regB){ // J Type
+    private void jalr(String regA , String regB) throws IOException { // J Type
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         if(ValueB != 0) reg[ValueB] = line + 1;
@@ -120,12 +132,12 @@ public class BehavioralSimulator implements BSimulator{
         run(line);
     }
 
-    private void halt (){ // O Type
+    private void halt () throws IOException { // O Type
         line++;
         printFinal();
     }
 
-    private void noop (){ // O Type
+    private void noop () throws IOException { // O Type
         line++;
         run(line);
     }
@@ -136,16 +148,20 @@ public class BehavioralSimulator implements BSimulator{
         if(s.length()==32) return s.substring(16); //ติดลบ
         else {
             sn.append("0".repeat(Math.max(0, 15 - s.length())));
-            sn.append(s);
         }
+        sn.append(s);
         return sn.toString();
     }
 
-    private void printFinal(){
+    private void printFinal() throws IOException {
         System.out.println("machine halted\n" +
                 "total of "+ counter +" instructions executed\n" +
                 "final state of machine:");
+        myWriter.write("\nmachine halted\n" +
+                "total of "+ counter +" instructions executed\n" +
+                "final state of machine:\n");
         printState();
+        myWriter.close();
     }
 
     private int convertNum(int num) {
