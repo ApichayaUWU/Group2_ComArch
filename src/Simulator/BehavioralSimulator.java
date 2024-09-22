@@ -148,8 +148,8 @@ public class BehavioralSimulator implements BSimulator{
         if(s.length()==32) return s.substring(16); //ติดลบ
         else {
             sn.append("0".repeat(Math.max(0, 15 - s.length())));
-            sn.append(s);
         }
+        sn.append(s);
         return sn.toString();
     }
 

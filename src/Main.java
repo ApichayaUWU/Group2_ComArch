@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception {
 //        ReadAssembly RA = new ReadFile("src\\test2.txt");
-//        ReadAssembly RA = new ReadFile("src\\tonnamTest.txt");
-        ReadAssembly RA = new ReadFile("src\\example.txt");
+        ReadAssembly RA = new ReadFile("src\\tonnamTest.txt");
+//        ReadAssembly RA = new ReadFile("src\\example.txt");
         ArrayList<String> MC = RA.getMachineCode();
         BSimulator BS = new BehavioralSimulator(MC);
         BS.run();
