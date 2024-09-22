@@ -1,0 +1,35 @@
+        lw      0       1       one
+        lw      0       2       sixteen
+        lw      0       4       one
+loop_sw add     7       1       7
+        beq     7       2       load1
+        sw      7       4       stack
+        add     4       4       4
+        beq     0       0       loop_sw
+load1  lw      0       6       Minus
+        lw      0       2       mplier
+msb    lw      7       4       stack
+        nand    4       2       5
+        nand    5       5       5
+        beq     5       4       load2
+        add     7       6       7
+        beq     7       0       done
+        beq     0       0       msb
+load2  lw      0       1       mcand
+        lw      0       2       mplier
+Multi  beq     5       0       skipAdd
+        add     3       1       3
+        beq     7       0       done
+skipAdd add     1       1       1
+        add     7       6       7
+        lw      7       4       stack
+        nand    2       4       5
+        nand    5       5       5
+        beq     0       0       Multi
+done   halt
+mcand   .fill   32766
+mplier  .fill   10383
+one     .fill   1
+sixteen .fill   16
+Minus   .fill   -1
+stack   .fill   0
