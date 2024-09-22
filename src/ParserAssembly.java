@@ -181,12 +181,14 @@ public class ParserAssembly {
     }
 
     public void parseOffsetField() throws Exception{
-//        System.out.println(isNumber(tkz.peek()));
+//        System.out.println(isNumber(tkz.peek()) + tkz.peek());
         if(isNumber(tkz.peek())){
 //            System.out.println("number offset  " + tkz.peek());
             int num = Integer.parseInt(tkz.peek());
+//            System.out.println("offset");
             if(num <= 32767 && num >= -32768){
                 String offset = TwosComplement(num);
+//                System.out.println("what is offsetField " + offset );
                 currentCode = currentCode + offset;
                 machineCode.add(currentCode);
 //                System.out.println("what add offset num" + currentCode);
@@ -252,7 +254,7 @@ public class ParserAssembly {
     }
     public void parseGapRType() throws Exception{
         StringBuilder code = new StringBuilder(currentCode);
-        code.insert(8,"0000000000000");
+        code.insert(9,"0000000000000");
         currentCode = code.toString();
         machineCode.add(currentCode);
 //        System.out.println("what add R type" + currentCode);
