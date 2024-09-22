@@ -7,10 +7,11 @@ import java.util.ArrayList;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws Exception {
-        ReadAssembly RA = new ReadFile("src\\tonnamTest.txt");
+//        ReadAssembly RA = new ReadFile("src\\test2.txt");
+//        ReadAssembly RA = new ReadFile("src\\tonnamTest.txt");
+        ReadAssembly RA = new ReadFile("src\\example.txt");
         ArrayList<String> MC = RA.getMachineCode();
-//        MC.set(3,"0001110010000000000000111");
-//        BSimulator BS = new BehavioralSimulator(MC);
-//        BS.run();
+        BSimulator BS = new BehavioralSimulator(MC);
+        BS.run();
     }
 }

@@ -36,14 +36,14 @@ public class BehavioralSimulator implements BSimulator{
         myWriter.write("@@@\n" +
                 "state:\n" +
                 "\tpc "+line+"\n" +
-                "\tmemory:");
+                "\tinstructions "+counter+"\n" +
+                "\tmemory:\n");
         for (int i=0; i<memory.size() ; i++){
-            //System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
             System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
             myWriter.write("\t\tmem[ "+i+" ] "+memory.get(i)+"\n");
         }
         System.out.println("\tregisters:");
-        myWriter.write("\tregisters:");
+        myWriter.write("\tregisters:\n");
         for (int i=0; i<reg.length ; i++){
             System.out.println("\t\treg[ "+i+" ] "+reg[i]);
             myWriter.write("\t\treg[ "+i+" ] "+reg[i]+"\n");
@@ -157,6 +157,9 @@ public class BehavioralSimulator implements BSimulator{
         System.out.println("machine halted\n" +
                 "total of "+ counter +" instructions executed\n" +
                 "final state of machine:");
+        myWriter.write("\nmachine halted\n" +
+                "total of "+ counter +" instructions executed\n" +
+                "final state of machine:\n");
         printState();
         myWriter.close();
     }
