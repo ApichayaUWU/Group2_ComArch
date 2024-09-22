@@ -94,7 +94,7 @@ public class BehavioralSimulator implements BSimulator{
         int ValueA = Integer.parseInt(regA,2);
         int ValueB = Integer.parseInt(regB,2);
         int offset = convertNum(Integer.parseInt(offsetField,2));
-        String save = Integer.toBinaryString(reg[ValueB]);
+        String save = extendSignBit(reg[ValueB]);
         int ValueM = convertNum(Integer.parseInt(memory.get(offset+reg[ValueA]),2));//find memory address
         if (memory.size() <=  ValueM) //extent memory size
             for(int i = memory.size();i<=ValueM;i++) memory.add("0");
@@ -128,6 +128,17 @@ public class BehavioralSimulator implements BSimulator{
     private void noop (){ // O Type
         line++;
         run(line);
+    }
+
+    private String extendSignBit(int num){
+        String s = Integer.toBinaryString(num);
+        StringBuilder sn = new StringBuilder("0");
+        if(s.length()==32) return s.substring(16); //ติดลบ
+        else {
+            sn.append("0".repeat(Math.max(0, 15 - s.length())));
+            sn.append(s);
+        }
+        return sn.toString();
     }
 
     private void printFinal(){
