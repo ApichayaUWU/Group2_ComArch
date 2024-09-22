@@ -16,9 +16,9 @@ public class ReadFile implements ReadAssembly{
 //        fileName = "src\\test2.txt";
         AssemblyTokenizerV2 tkz = new AssemblyTokenizerV2(fileName);
         tkz.printToken();
-        ParserAssembly pa = new ParserAssembly(tkz);
-        pa.parseCode();
-        pa.print();
+        PA = new ParserAssembly(tkz);
+        PA.parseCode();
+        PA.print();
     }
 
     @Override
