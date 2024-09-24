@@ -243,8 +243,14 @@ public class ParserAssembly {
                 }
                 index++;
             }
+            code = machineCode.get(pc);
+            if(!isNumber(code)){
+//                System.out.println("what code" + code);
+                throw new Exception("use undefine label");
+            }
             pc++;
         }
+
     }
     public void parseGapRType() throws Exception{
         StringBuilder code = new StringBuilder(currentCode);
