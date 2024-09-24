@@ -1,7 +1,4 @@
-import org.w3c.dom.ls.LSOutput;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 public class ParserAssembly {
@@ -11,8 +8,8 @@ public class ParserAssembly {
     private String currentCode ;
     private ArrayList<String> label = new ArrayList<>();
     private ArrayList<Integer> address = new ArrayList<Integer>();
-    FileWriter outputFile = new FileWriter("src\\machineCodeOutput.txt");
-    public ParserAssembly(Tokenizer tkz) throws IOException {
+
+    public ParserAssembly(Tokenizer tkz)  {
         this.tkz = tkz;
         this.currentCode = "";
     }
