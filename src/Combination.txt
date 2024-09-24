@@ -1,0 +1,48 @@
+            lw      0   1   n
+            lw      0   2   r
+            lw      0   4   comb
+            jalr    4   7
+            halt
+combination lw      0   4   pos1
+            add     5   4   5
+            sw      5   7   stack   # store ra
+            add     5   4   5
+            sw      5   1   stack   # store $1
+            add     5   4   5
+            sw      5   2   stack   # store $2
+            beq     1   2   base_case      # n == r
+            beq     2   0   base_case      # r == 0
+            lw      0   4   neg1    # load -1 to $4
+            add     1   4   1       # n-1
+            lw      0   4   comb    # prepare to jump $4 = addr of comb func
+            jalr    4   7           # recursive call, store pc+1 at ra
+            lw      0   4   neg1    # load -1 to $4
+            add     2   4   2       # r-1
+            lw      0   4   comb    # prepare to jump $4 = addr of comb func
+            jalr    4   7           # recursive call, store pc+1 at ra
+            lw     0   4   neg1
+            lw     5   2   stack   # load $2
+            add    5   4   5
+            lw     5   1   stack   # load $1
+            add    5   4   5
+            lw     5   7   stack   # load ra
+            add    5   4   5
+            jalr    7   0
+base_case   lw     0   4   pos1    # load 1 to $4
+            add    3   4   3       # $3+1 = $3 (return value)
+            lw     0   4   neg1
+            lw     5   2   stack   # load $2
+            add    5   4   5
+            lw     5   1   stack   # load $1
+            add    5   4   5
+            lw     5   7   stack   # load ra
+            add    5   4   5
+            jalr   7   0           # return
+comb .fill combination
+bc .fill base_case
+pos1 .fill 1
+neg1 .fill -1
+neg3 .fill -3
+n .fill 7
+r .fill 3
+stack .fill 0

@@ -10,11 +10,12 @@ public class BehavioralSimulator implements BSimulator{
     private int line;
     private int counter;
     private final int[] reg = new int[8];
-    FileWriter myWriter = new FileWriter("src\\output.txt");
+    FileWriter myWriter;
 
 
-    public BehavioralSimulator(ArrayList<String> memory) throws IOException {
+    public BehavioralSimulator(ArrayList<String> memory,String src) throws IOException {
         this.memory = memory;
+        myWriter = new FileWriter(src);
         counter = 0;
         line = 0;
         Arrays.fill(reg, 0);
