@@ -125,6 +125,10 @@ public class ParserAssembly {
                 tkz.consume();
 //                System.out.println("filllllllllllllll "+tkz.peek());
                 parseFill();
+            }else if(AssemblyCommand.contains(tkz.peek())){
+                parseCommand();
+            }else{
+                throw new Exception("command not found");
             }
         }else{
 //            System.out.println("why"+tkz.peek());
