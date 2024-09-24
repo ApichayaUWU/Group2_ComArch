@@ -23,9 +23,9 @@ public class BehavioralSimulator implements BSimulator{
 
     private void printInitial() throws IOException {
         for (int i=0; i<memory.size() ; i++){
-            //System.out.println("memory["+i+"]="+memory.get(i));
-            System.out.println("memory["+i+"]="+memory.get(i));
-            myWriter.write("mem[ "+i+" ] "+memory.get(i)+"\n");
+            String mem = extend32bits(memory.get(i));
+            System.out.println("memory["+i+"]="+mem);
+            myWriter.write("mem[ "+i+" ] "+mem+"\n");
         }
     }
     private void printState() throws IOException {
@@ -39,8 +39,9 @@ public class BehavioralSimulator implements BSimulator{
                 "\tinstructions "+counter+"\n" +
                 "\tmemory:\n");
         for (int i=0; i<memory.size() ; i++){
-            System.out.println("\t\tmem[ "+i+" ] "+memory.get(i));
-            myWriter.write("\t\tmem[ "+i+" ] "+memory.get(i)+"\n");
+            String mem = extend32bits(memory.get(i));
+            System.out.println("\t\tmem[ "+i+" ] "+mem);
+            myWriter.write("\t\tmem[ "+i+" ] "+mem+"\n");
         }
         System.out.println("\tregisters:");
         myWriter.write("\tregisters:\n");
@@ -142,6 +143,17 @@ public class BehavioralSimulator implements BSimulator{
         run(line);
     }
 
+    private String extend32bits(String mem){
+        StringBuilder sn = new StringBuilder();
+        if(mem.length() == 25){
+            sn.append("0000000");
+        }else{
+            if(mem.charAt(0) == '1') sn.append("1111111111111111");
+            if(mem.charAt(0)=='0') sn.append("0000000000000000");
+        }
+        sn.append(mem);
+        return sn.toString();
+    }
     private String extendSignBit(int num){
         String s = Integer.toBinaryString(num);
         StringBuilder sn = new StringBuilder("0");
@@ -150,7 +162,12 @@ public class BehavioralSimulator implements BSimulator{
             sn.append("0".repeat(Math.max(0, 15 - s.length())));
         }
         sn.append(s);
-        return sn.toString();
+        s = sn.toString();
+        if(sn.toString().length() > 16){
+            int n = sn.toString().length() - 16;
+            s = s.substring(n);
+        }
+        return s;
     }
 
     private void printFinal() throws IOException {
@@ -171,19 +188,4 @@ public class BehavioralSimulator implements BSimulator{
         }
         return num;
     }
-
-//    private int binaryStringToInteger(String binaryString) {
-//        // ตรวจสอบว่าเป็นจำนวนลบหรือไม่
-//        if (binaryString.charAt(0) == '1') {
-//            // กลับบิตทั้งหมด
-//            String inverted = binaryString.replace('0', '2').replace('1', '0').replace('2', '1');
-//            // บวก 1
-//            int decimal = Integer.parseInt(inverted, 2) + 1;
-//            // ทำค่าให้เป็นลบ
-//            return -decimal;
-//        } else {
-//            // ถ้าเป็นจำนวนบวก แปลงตามปกติ
-//            return Integer.parseInt(binaryString, 2);
-//        }
-//    }
 }
