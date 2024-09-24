@@ -1,5 +1,7 @@
 import org.w3c.dom.ls.LSOutput;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 public class ParserAssembly {
@@ -9,7 +11,8 @@ public class ParserAssembly {
     private String currentCode ;
     private ArrayList<String> label = new ArrayList<>();
     private ArrayList<Integer> address = new ArrayList<Integer>();
-    public ParserAssembly(Tokenizer tkz){
+    FileWriter outputFile = new FileWriter("src\\machineCodeOutput.txt");
+    public ParserAssembly(Tokenizer tkz) throws IOException {
         this.tkz = tkz;
         this.currentCode = "";
     }
@@ -70,8 +73,6 @@ public class ParserAssembly {
             }
             parseOffsetField();
             parseComment();
-
-
         }else if(tkz.peek().equals("sw")){
             currentCode = "011";
             tkz.consume();
@@ -81,8 +82,6 @@ public class ParserAssembly {
             }
             parseOffsetField();
             parseComment();
-
-
         }else if(tkz.peek().equals("beq")){
             currentCode = "100";
             tkz.consume();
@@ -92,8 +91,6 @@ public class ParserAssembly {
             }
             parseOffsetField();
             parseComment();
-
-
         }else if(tkz.peek().equals("jalr")){
             currentCode = "101";
             tkz.consume();
@@ -103,7 +100,6 @@ public class ParserAssembly {
             }
             parseComment();
             parseGapJType();
-
         }else if(tkz.peek().equals("halt")){
             currentCode = "110";
             tkz.consume();
@@ -117,7 +113,6 @@ public class ParserAssembly {
             parseComment();
             parseGapOType();
 //            System.out.println("after noop   " + tkz.peek());
-
         }
     }
 
@@ -152,6 +147,8 @@ public class ParserAssembly {
 //                System.out.println("fill number?  " +tkz.peek());
                 tkz.consume();
                 parseComment();
+            }else{
+                throw new Exception("number not match");
             }
         } else {
 //            System.out.println("fill label whit label " + tkz.peek());
@@ -166,7 +163,7 @@ public class ParserAssembly {
     public void parseReg() throws Exception{
         if(isNumber(tkz.peek())){
             if(tkz.peek().charAt(0) == '-'){
-//                throw new Exception("incorrect reg");
+                throw new Exception("incorrect reg");
             }else {
                 int reg = Integer.parseInt(tkz.peek());
                 if(reg <= 7){
@@ -174,7 +171,7 @@ public class ParserAssembly {
                     currentCode = currentCode + r;
                     tkz.consume();
                 }else{
-//                    throw new Exception("wrong register");
+                    throw new Exception("wrong register");
                 }
             }
         }
@@ -192,6 +189,8 @@ public class ParserAssembly {
 //                System.out.println("what add offset num" + currentCode);
                 currentCode = "";
                 tkz.consume();
+            }else{
+                throw new Exception("can not read number");
             }
         }else {
 //            System.out.println("label offset   " + tkz.peek());
@@ -310,14 +309,7 @@ public class ParserAssembly {
         list.add("noop");
         return list;
     }
-    public void print(){
-        System.out.println(label.size());
-        System.out.println(label);
-        System.out.println(address.size());
-        System.out.println(address);
-        System.out.println(machineCode.size());
-        System.out.println(machineCode);
-    }
+
     public String FillBinary(Integer number) throws Exception{
         StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(number));
         int size = binaryString.length();
@@ -350,40 +342,14 @@ public class ParserAssembly {
         }else{
             return Integer.toBinaryString(number).substring(16);
         }
-
-//        System.out.println(binaryString);
-//        String TwosCom = binaryString.replace('1','2');
-//        System.out.println("line 1 "+TwosCom);
-//        TwosCom = TwosCom.replace('0','1');
-//        System.out.println("line 2 "+TwosCom);
-//        TwosCom = TwosCom.replace('2','0');
-//        System.out.println("line 3 " + TwosCom);
-//        int num = Integer.parseInt(TwosCom,2);
-//        System.out.println(num);
-//        num = num + 1;
-//        System.out.println("num" + num);
-////        binaryString = Integer.toBinaryString(num);
-////        System.out.println(binaryString);
-//        StringBuilder binaryS = new StringBuilder(Integer.toBinaryString(num));
-//        System.out.println("BS"+binaryS);
-//        int size = binaryS.length();
-//        System.out.println(binaryS);
-//        if(size < 16){
-//            int i = 16 - size;
-//            String fillValue;
-//            if(binaryS.charAt(0) == '1'){
-//                fillValue = "1";
-//            }else if(binaryS.charAt(0) == '0') {
-//                fillValue = "0";
-//            }else throw new Exception("unknown");
-//            while (i > 0){
-//                binaryS.insert(0, fillValue);
-//                i--;
-//            }
-//        }else if(size > 16){
-//            throw new Exception("incorrect value");
-//        }else return binaryS.toString();
-//
-
     }
+    public void print(){
+        System.out.println(label.size());
+        System.out.println(label);
+        System.out.println(address.size());
+        System.out.println(address);
+        System.out.println(machineCode.size());
+        System.out.println(machineCode);
+    }
+
 }
