@@ -1,3 +1,5 @@
+package Assembler;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -103,7 +105,7 @@ public class AssemblyTokenizerV2 implements Tokenizer {
     }
 
     // Helper method to convert tokens into the LinkedList
-//    private void createList() throws SyntaxError {
+//    private void createList() throws Assembler.SyntaxError {
 //        int tokenIndex = 0; // Track the token index to handle comment after 4 tokens
 //
 //
@@ -121,7 +123,7 @@ public class AssemblyTokenizerV2 implements Tokenizer {
 //                // Handle invalid tokens by throwing an error
 //                else {
 //                    System.out.println("Invalid token: " + token);
-//                    throw new SyntaxError("Invalid token");
+//                    throw new Assembler.SyntaxError("Invalid token");
 //                }
 //                tokenIndex++; // Increment the token index
 //

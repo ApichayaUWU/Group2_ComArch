@@ -1,10 +1,8 @@
+package Assembler;
+
 import java.io.*;
 import java.util.ArrayList;
 
-interface ReadAssembly{
-    public void genarateMachineCode(String fileName0) throws IOException, SyntaxError,Exception ;
-    public ArrayList<String> getMachineCode();
-}
 public class ReadFile implements ReadAssembly{
     private ParserAssembly PA ;
     public ReadFile(String fileName) throws Exception {

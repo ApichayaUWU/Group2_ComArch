@@ -1,3 +1,5 @@
+import Assembler.ReadAssembly;
+import Assembler.ReadFile;
 import Simulator.BSimulator;
 import Simulator.BehavioralSimulator;
 
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws Exception {
         ReadAssembly RA = new ReadFile("src\\Combination.txt");
-//        ReadAssembly RA = new ReadFile("src\\Multiply.txt");
+//        Assembler.ReadAssembly RA = new Assembler.ReadFile("src\\Multiply.txt");
         ArrayList<String> MC = RA.getMachineCode();
         BSimulator BS = new BehavioralSimulator(MC,"src\\CombinationOutput.txt");
 //        BSimulator BS = new BehavioralSimulator(MC,"src\\MultiplyOutput.txt");
