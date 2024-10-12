@@ -8,8 +8,7 @@ public class ReadFile implements ReadAssembly{
     public ReadFile(String fileName) throws Exception {
         genarateMachineCode(fileName);
     }
-    @Override
-    public void genarateMachineCode(String fileName)  throws IOException, SyntaxError,Exception {
+    private void genarateMachineCode(String fileName)  throws IOException, SyntaxError,Exception {
         // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
 //        fileName = "src\\Combination.txt";
         AssemblyTokenizer tkz = new AssemblyTokenizer(fileName);
