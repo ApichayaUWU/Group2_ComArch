@@ -15,7 +15,6 @@ public class ReadFile implements ReadAssembly{
         AssemblyTokenizer tkz = new AssemblyTokenizer(fileName);
         tkz.printToken();
         PA = new ParserAssembly(tkz);
-        PA.parseCode();
         PA.print();
     }
 

@@ -12,9 +12,10 @@ public class ParserAssembly {
     private ArrayList<String> label = new ArrayList<>();
     private ArrayList<Integer> address = new ArrayList<Integer>();
 
-    public ParserAssembly(Tokenizer tkz)  {
+    public ParserAssembly(Tokenizer tkz) throws Exception {
         this.tkz = tkz;
         this.currentCode = "";
+        this.parseCode();
     }
 
     public ArrayList<String> getMachineCode(){
