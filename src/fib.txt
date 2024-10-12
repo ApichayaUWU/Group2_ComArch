@@ -40,5 +40,5 @@ zero        lw     0   4   neg1
 fib .fill fibonacci
 pos1 .fill 1
 neg1 .fill -1
-n .fill 9
+n .fill 3
 stack .fill 0
