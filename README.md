@@ -1,1 +1,1 @@
-Screenshot 2024-09-21 235113 สร้าง class ReadFile ขึ้นมาก่อนโดย input เป็น ที่อยู่ file text ที่ต้องการอ่าน แล้วมันจะ generate ArrayList machine code เรียบร้อย เรียกออกมาได้เลย มี 1 function ให้ใช้คือเอา ArrayList ของ machine code ออกมา คือ getMachineCode
+Screenshot 2024-09-21 235113 สร้าง class Assembler.ReadFile ขึ้นมาก่อนโดย input เป็น ที่อยู่ file text ที่ต้องการอ่าน แล้วมันจะ generate ArrayList machine code เรียบร้อย เรียกออกมาได้เลย มี 1 function ให้ใช้คือเอา ArrayList ของ machine code ออกมา คือ getMachineCode

@@ -37,7 +37,6 @@ public class BehavioralSimulator implements BSimulator{
         myWriter.write("@@@\n" +
                 "state:\n" +
                 "\tpc "+line+"\n" +
-//                "\tinstructions "+counter+"\n" +
                 "\tmemory:\n");
         for (int i=0; i<memory.size() ; i++){
             String mem = extend32bits(memory.get(i));
