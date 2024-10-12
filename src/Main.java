@@ -9,10 +9,10 @@ import java.util.ArrayList;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws Exception {
-        ReadAssembly RA = new ReadFile("src\\Combination.txt");
+        ReadAssembly RA = new ReadFile("src\\fib.txt");
 //        Assembler.ReadAssembly RA = new Assembler.ReadFile("src\\Multiply.txt");
         ArrayList<String> MC = RA.getMachineCode();
-        BSimulator BS = new BehavioralSimulator(MC,"src\\CombinationOutput.txt");
+        BSimulator BS = new BehavioralSimulator(MC,"src\\fibOutput.txt");
 //        BSimulator BS = new BehavioralSimulator(MC,"src\\MultiplyOutput.txt");
         BS.run();
     }
