@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 interface Tokenizer {
-    boolean hasNextToken();
-    void checkNextToken();
-    String peek();
-    String consume() throws SyntaxError;
+    public boolean hasNextToken();
+    public String peek();
+    public String consume() throws SyntaxError;
 }
 
 public class AssemblyTokenizer implements Tokenizer {
@@ -75,7 +74,6 @@ public class AssemblyTokenizer implements Tokenizer {
         return !tokensList.isEmpty();
     }
 
-    @Override
     public void checkNextToken() {
         if (!hasNextToken()) throw new NoSuchElementException("No more tokens");
     }
