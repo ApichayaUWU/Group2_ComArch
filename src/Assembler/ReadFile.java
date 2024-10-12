@@ -12,7 +12,7 @@ public class ReadFile implements ReadAssembly{
     public void genarateMachineCode(String fileName)  throws IOException, SyntaxError,Exception {
         // ระบุชื่อไฟล์ Assembly ที่ต้องการอ่าน
 //        fileName = "src\\Combination.txt";
-        AssemblyTokenizerV2 tkz = new AssemblyTokenizerV2(fileName);
+        AssemblyTokenizer tkz = new AssemblyTokenizer(fileName);
         tkz.printToken();
         PA = new ParserAssembly(tkz);
         PA.parseCode();

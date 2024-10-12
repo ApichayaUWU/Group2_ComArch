@@ -14,11 +14,11 @@ interface Tokenizer {
     String consume() throws SyntaxError;
 }
 
-public class AssemblyTokenizerV2 implements Tokenizer {
+public class AssemblyTokenizer implements Tokenizer {
     String[] tokens;
     List<String> tokensList = new ArrayList<>();
     String fileName;
-    public AssemblyTokenizerV2(String fileName) throws IOException {
+    public AssemblyTokenizer(String fileName) throws IOException {
         this.fileName = fileName;
         tokenizeAssemblyFile();
     }
@@ -65,8 +65,6 @@ public class AssemblyTokenizerV2 implements Tokenizer {
 
 
         }
-
-
 
         reader.close();
     }
