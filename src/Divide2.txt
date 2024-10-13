@@ -45,7 +45,7 @@ skip_add    add     6       1       1                   #$6 plus $1 store to $1
             add     1       5       1                   #make $1 to negative number
             add     6       1       6                   #$6 plus $1 store to $6
             add     3       5       3                   #collect result to $3
-            beq     0       0       load3               #loop
+            beq     0       0       load3               #loop load3
 done        halt
 divisor   .fill   1784
 divined   .fill   159
