@@ -1,33 +1,33 @@
-        lw      0       3       one
-        lw      0       2       fifteen
-        lw      0       4       one
-loop_sw add     7       3       7
-        sw      7       4       stack
-        beq     7       2       load1
-        add     4       4       4
-        beq     0       0       loop_sw
-load1   lw      0       6       Minus
-        lw      0       2       mplier
-msb     lw      7       4       stack
-        nand    4       2       5
+        lw      0       3       one                         #$3 = 3
+        lw      0       2       fifteen                     #$2 = 14
+        lw      0       4       one                         #$4 = 1
+loop_sw add     7       3       7                           #move stack pointer $7 to next index
+        sw      7       4       stack                       #store $4 in stack where $7 at
+        beq     7       2       load1                       #check if $7 reach 14 bits
+        add     4       4       4                           #shift left $4
+        beq     0       0       loop_sw                     #loop loop_sw
+load1   lw      0       6       Minus                       #$6 = -1
+        lw      0       2       mplier                      #$2 = mplier
+msb     lw      7       4       stack                       #load stack where $7 is to $4
+        nand    4       2       5                           #$4 and $2 store to $5
         nand    5       5       5
-        beq     5       4       load2
-        add     7       6       7
-        beq     7       0       done
-        beq     0       0       msb
-load2   lw      0       3       mcand
-Multi   lw      7       4       stack
-        nand    2       4       5
+        beq     5       4       load2                       #check if $5 == $4 then go to load2
+        add     7       6       7                           #move stack pointer to previous index
+        beq     7       0       done                        #if index = 0 then done
+        beq     0       0       msb                         #loop msb
+load2   lw      0       3       mcand                       #$3 = mcand
+Multi   lw      7       4       stack                       #load stack where $7 is to $4
+        nand    2       4       5                           #$2 and $4 store in $5
         nand    5       5       5
-        beq     5       0       skipAdd
-        add     1       3       1
-skipAdd add     7       6       7
-        beq     7       0       done
-        add     1       1       1
-        beq     0       0       Multi
+        beq     5       0       skipAdd                     #if 5 == 0 then skipAdd
+        add     1       3       1                           #collect result to $3
+skipAdd add     7       6       7                           #move stack pointer to previous index
+        beq     7       0       done                        #if index = 0 then done
+        add     1       1       1                           #shift left $1
+        beq     0       0       Multi                       #loop Multi
 done    halt
-mcand   .fill   32766
-mplier  .fill   10383
+mcand   .fill   10383
+mplier  .fill   32766
 one     .fill   1
 fifteen .fill   15
 Minus   .fill   -1
