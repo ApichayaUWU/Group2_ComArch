@@ -6,4 +6,4 @@ loop        beq     4   0   done    # if(n==0) done
             beq     0   0   loop    # else loop
 done        halt                    # end of program
 neg1 .fill -1
-n .fill 11
+n .fill 255

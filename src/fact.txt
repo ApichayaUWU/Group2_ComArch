@@ -1,0 +1,71 @@
+            lw      0   1   n       # input n
+            add     0   1   3       # save n to return value
+            lw      0   6   fifteen # prepare to loop store stack 15 times
+            lw      0   2   pos1
+            lw      0   4   pos1    # make first digit
+loop_sw     add     5   2   5
+            sw      5   4   stack
+            beq     5   6   next
+            add     4   4   4
+            beq     0   0   loop_sw # loop until digit check reach to 15 digits
+next        lw      0   5   fifteen # make sure that stack pointer is on stack+15
+            lw      0   4   fact    # prepare jumping to factorial method
+            jalr    4   7           # jump
+            halt                    # save return address here
+factorial   lw      0   4   pos1
+            add     5   4   5
+            sw      5   7   stack   # store ra
+            add     5   4   5
+            sw      5   1   stack   # store $1
+            beq     1   0   zero    # if n == 0
+            lw      0   4   neg1    # load -1 to $4
+            add     1   4   1       # n-1
+            lw      0   4   fact    # recursive call to factorial(n-1)
+            jalr    4   7           # jump
+
+            beq     0   0   mul     # after n reach 0, start to mul the result and pop stack here
+back        lw      0   4   neg1
+            lw      5   1   stack   # load $1
+            add     5   4   5
+            lw      5   7   stack   # load ra
+            add     5   4   5
+            jalr    7   0
+zero        lw     0   4   neg1     # jump to here when n == 0
+            lw     5   1   stack   # load $1
+            add    5   4   5
+            lw     5   7   stack   # load ra
+            add    5   4   5
+            jalr   7   0           # return
+mul         lw      0       2       neg1    # calculate multiple
+            lw      0       6       fifteen
+msb         lw      6       4       stack
+            nand    4       1       7
+            nand    7       7       7
+            beq     7       4       Multi
+            add     6       2       6
+            beq     6       0       done
+            beq     0       0       msb
+Multi       lw      7       4       stack
+            nand    1       4       6
+            nand    6       6       6
+            beq     6       0       skipAdd
+            lw      0       6       stack
+            add     6       3       6
+            sw      0       6       stack
+skipAdd     add     7       2       7
+            beq     7       0       done
+            lw      0       6       stack
+            add     6       6       6
+            sw      0       6       stack
+            beq     0       0       Multi
+done        lw      0       4       stack
+            beq     4       0       back
+            lw      0       3       stack
+            sw      0       0       stack
+            beq     0       0       back    # go back to poping out stack
+fact .fill factorial
+pos1 .fill 1
+neg1 .fill -1
+n .fill 7
+fifteen .fill   15
+stack .fill 0
