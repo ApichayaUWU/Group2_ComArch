@@ -7,7 +7,7 @@ loop_sw     add     7       1       7                   #move stack pointer $7 t
             add     4       4       4                   #shift left $4
             beq     0       0       loop_sw             #loop loop_sw
 load1       lw      0       6       Minus               #$6 = -1
-            lw      0       2       divisor             #$2 = divisor
+            lw      0       2       divined             #$2 = divisor
 msb         lw      7       4       stack               #load stack where $7 is to $4
             nand    4       2       5                   #$4 and $2 store to $5
             nand    5       5       5
@@ -17,7 +17,7 @@ msb         lw      7       4       stack               #load stack where $7 is 
             beq     0       0       msb                 #loop msb
 load2       lw      0       6       zero                #$6 = 0
             lw      0       3       zero                #$3 = 0
-load3       lw      0       1       divined             #$1 = divined
+load3       lw      0       1       divisor             #$1 = divined
             lw      0       5       one                 #$5 = 1
             nand    1       1       1                   #not $1
             add     1       5       1                   #make $1 to negative number
@@ -39,7 +39,7 @@ skip_add    add     6       1       1                   #$6 plus $1 store to $1
             nand    5       5       5
             beq     5       4       load3               #check if $1 is negative number then go load3
             lw      0       5       one                 #if $1 is not negative number then $5 = 1
-            lw      0       1       divined             #$1 = divined
+            lw      0       1       divisor             #$1 = divined
             lw      0       5       one                 #$5 = 1
             nand    1       1       1                   #not $1
             add     1       5       1                   #make $1 to negative number
@@ -47,8 +47,8 @@ skip_add    add     6       1       1                   #$6 plus $1 store to $1
             add     3       5       3                   #collect result to $3
             beq     0       0       load3               #loop load3
 done        halt
-divisor   .fill   1784
-divined   .fill   159
+divined   .fill   1784
+divisor   .fill   159
 zero      .fill   0
 Minus     .fill   -1
 one       .fill   1
