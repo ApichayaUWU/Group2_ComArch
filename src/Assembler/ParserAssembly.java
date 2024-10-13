@@ -352,7 +352,7 @@ public class ParserAssembly {
                     i--;
                 }
             }else if(size > 16) {
-                throw new Exception("incorrect reg");
+                throw new Exception("incorrect offsetField");
             }
             return binaryString.toString();
         }else{
