@@ -1,51 +1,51 @@
-            lw      0   1   one
-            lw      0   2   fourteen
-            lw      0   4   one
-loop_sw     add     7       1       7
-            sw      7       4       stack
-            beq     7       2       load1
-            add     4       4       4
-            beq     0       0       loop_sw
-load1       lw      0       6       Minus
-            lw      0       2       divisor
-msb         lw      7       4       stack
-            nand    4       2       5
+            lw      0       1       one                 #$1 = 1
+            lw      0       2       fourteen            #$2 = 14
+            lw      0       4       one                 #$4 = 1
+loop_sw     add     7       1       7                   #move stack pointer $7 to next index
+            sw      7       4       stack               #store $4 in stack where $7 at
+            beq     7       2       load1               #check if $7 reach 14 bits
+            add     4       4       4                   #shift left $4
+            beq     0       0       loop_sw             #loop loop_sw
+load1       lw      0       6       Minus               #$6 = -1
+            lw      0       2       divisor             #$2 = divisor
+msb         lw      7       4       stack               #load stack where $7 is to $4
+            nand    4       2       5                   #$4 and $2 store to $5
             nand    5       5       5
-            beq     5       4       load2
-            add     7       6       7
-            beq     7       0       done
-            beq     0       0       msb
-load2       lw      0       6       zero
-            lw      0       3       zero
-load3       lw      0       1       divined
-            lw      0       5       one
-            nand    1       1       1
-            add     1       5       1                   #ทำให้ reg 1 = 5 >>>>>  = -5
-            beq     7       0       done
-Divide      lw      7       4       stack               #โหลดบรรทัด reg7 to reg4
-            lw      0       5       zero
-            add     6       6       6                   #ชิบ 6
-            add     3       3       3                   #ชิบ 3
-            nand    2       4       5                   #เช็คบิทว่าเป็น 0 or 1
+            beq     5       4       load2               #check if $5 == $4 then go to load2
+            add     7       6       7                   #move stack pointer to previous index
+            beq     7       0       done                #if index = 0 then done
+            beq     0       0       msb                 #loop msb
+load2       lw      0       6       zero                #$6 = 0
+            lw      0       3       zero                #$3 = 0
+load3       lw      0       1       divined             #$1 = divined
+            lw      0       5       one                 #$5 = 1
+            nand    1       1       1                   #not $1
+            add     1       5       1                   #make $1 to negative number
+            beq     7       0       done                #if index = 0 then done
+Divide      lw      7       4       stack               #load stack where $7 is to $4
+            lw      0       5       zero                #$5 = 0
+            add     6       6       6                   #left shift $6
+            add     3       3       3                   #left shift $3
+            nand    2       4       5                   #$2 and $4 and store to $5
             nand    5       5       5
-            beq     5       0       skip_add            #ถ้าเป็น 0 ให้ข้ามไป skip_add
-            lw      0       5       one                 #ถ้าเป็น 1 แล้วให้บวก reg6 ไป 1
-            add     6       5       6
-skip_add    add     6       1       1                   #มันลบ reg6 กะ reg1 เก็บไว้ใน 1 reg6 เป็นเก็บเศษ
-            lw      0       5       Minus
-            add     7       5       7                   #เลื่อนบรรทัดของ stack ที่ reg7
-            lw      0       4       max
-            nand    4       1       5
+            beq     5       0       skip_add            #check if $5 == 0 then skip_add
+            lw      0       5       one                 #$5 = 1
+            add     6       5       6                   #$6 plus 1 then store to $6
+skip_add    add     6       1       1                   #$6 plus $1 store to $1
+            lw      0       5       Minus               #$5 = -1
+            add     7       5       7                   #move stack pointer to previous index
+            lw      0       4       max                 #$4 = 16384
+            nand    4       1       5                   #$4 and $1 store in $5
             nand    5       5       5
-            beq     5       4       load3               #เช็คว่าลบแล้วติดลบป่าว
-            lw      0       5       one                 #ถ้าไม่ติดลบแสดงว่าหารได้ และบวกผลลัพไป 1
-            lw      0       1       divined
-            lw      0       5       one
-            nand    1       1       1
-            add     1       5       1                   #ทำให้ reg 1 = 5 >>>>>  = -5
-            add     6       1       6
-            add     3       5       3
-            beq     0       0       load3
+            beq     5       4       load3               #check if $1 is negative number then go load3
+            lw      0       5       one                 #if $1 is not negative number then $5 = 1
+            lw      0       1       divined             #$1 = divined
+            lw      0       5       one                 #$5 = 1
+            nand    1       1       1                   #not $1
+            add     1       5       1                   #make $1 to negative number
+            add     6       1       6                   #$6 plus $1 store to $6
+            add     3       5       3                   #collect result to $3
+            beq     0       0       load3               #loop
 done        halt
 divisor   .fill   1784
 divined   .fill   159
