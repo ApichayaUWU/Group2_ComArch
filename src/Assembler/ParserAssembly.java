@@ -5,13 +5,13 @@ import Assembler.Tokenizer;
 import java.util.ArrayList;
 import java.util.List;
 public class ParserAssembly {
-    private Tokenizer tkz;
-    private static final List<String> AssemblyCommand = CreateAssemblyCommand();
-    private ArrayList<String> machineCode = new ArrayList<>();
-    private String currentCode ;
-    private ArrayList<String> label = new ArrayList<>();
-    private ArrayList<Integer> address = new ArrayList<Integer>();
-
+    private Tokenizer tkz;//token that cut for use
+    private static final List<String> AssemblyCommand = CreateAssemblyCommand(); //command that usable in assembly language
+    private ArrayList<String> machineCode = new ArrayList<>();//collect code that change to machine code
+    private String currentCode ;//save current code at every toke and when read line complete add tto machineCode
+    private ArrayList<String> label = new ArrayList<>(); //save every label that declare in code
+    private ArrayList<Integer> address = new ArrayList<Integer>();//save address of label that declare
+    //construction function argument Tokenizer
     public ParserAssembly(Tokenizer tkz) throws Exception {
         // receive Tokenizer tkz and initial currentCode for assign machine code to machineCode
         this.tkz = tkz;
@@ -19,11 +19,11 @@ public class ParserAssembly {
         //start read token and convert assembly language to machine code
         this.parseCode();
     }
-
+    //send ArrayList<String> machineCode that contain code in file
     public ArrayList<String> getMachineCode(){
-        //send ArrayList<String> machineCode that contain code in file
         return machineCode;
     }
+    //start read token
     public void parseCode() throws Exception{
         //read token if file not empty
         if(tkz.hasNextToken()){
@@ -45,7 +45,7 @@ public class ParserAssembly {
         //when last token fill label with address follow syntax of assembly language
         fillLabel();
     }
-
+    //convert command to opcode
     public void parseCommand() throws Exception{
         //add opcode to bit 22-24 in currentCode of each name of instruction
         if(tkz.peek().equals("add")){
@@ -121,7 +121,7 @@ public class ParserAssembly {
             parseGapOType();
         }
     }
-
+    //add label and address to list
     public void parseLabel() throws Exception{
         // check label duplicate
         if(!label.contains(tkz.peek())){
@@ -146,7 +146,7 @@ public class ParserAssembly {
             throw new Exception("repeat label");
         }
     }
-
+    //read command .fill for fill label
     public void parseFill() throws Exception{
         if(isNumber(tkz.peek())) {
             int num = Integer.parseInt(tkz.peek());
@@ -172,6 +172,7 @@ public class ParserAssembly {
 
         }
     }
+    //convert register to machine code
     public void parseReg() throws Exception{
         //check is it register
         if(isNumber(tkz.peek())){
@@ -194,7 +195,7 @@ public class ParserAssembly {
             throw new Exception("register must be number");
         }
     }
-
+    //convert offsetField to machine code
     public void parseOffsetField() throws Exception{
         //check offsetField is number or label
         if(isNumber(tkz.peek())){
@@ -219,7 +220,7 @@ public class ParserAssembly {
             tkz.consume();
         }
     }
-
+    //function for assign value of label that use in code
     public void fillLabel() throws Exception{
         //start at address 0 for fill label with address follow syntax
         int pc = 0;
@@ -264,40 +265,35 @@ public class ParserAssembly {
         }
 
     }
+    //add 0 for R type
     public void parseGapRType() throws Exception{
-        //add 0 for R type
         StringBuilder code = new StringBuilder(currentCode);
         code.insert(9,"0000000000000");
         currentCode = code.toString();
         machineCode.add(currentCode);
         currentCode = "";
     }
-
+    //add 0 for J type
     public void parseGapJType() throws Exception{
-        //add 0 for J type
         currentCode = currentCode + "0000000000000000";
         machineCode.add(currentCode);
         currentCode = "";
     }
-
+    //add 0 for 0 type
     public void parseGapOType() throws Exception{
-        //add 0 for 0 type
         currentCode = currentCode + "0000000000000000000000";
         machineCode.add(currentCode);
-//        System.out.println("what add 0 type" + currentCode);
         currentCode = "";
     }
-
+    //delete token command
     public void parseComment() throws Exception{
-        //delete token command
         while (!tkz.peek().equals("!")){
             tkz.consume();
         }
         tkz.consume();
     }
-
+    //check string is number
     private boolean isNumber(String str) {
-        //check string is number
         int size = str.length();
         if((str.charAt(0) == '-')||Character.isDigit(str.charAt(0))) {
             for (int i = 1; i < size; i++) {
@@ -310,8 +306,8 @@ public class ParserAssembly {
         }
         return true;
     }
+    //add list of command that usable
     private static List<String> CreateAssemblyCommand(){
-        //add list of command that usable
         List<String> list = new ArrayList<>();
         list.add("add");
         list.add("nand");
@@ -323,9 +319,8 @@ public class ParserAssembly {
         list.add("noop");
         return list;
     }
-
+    //fill binary number with 0 for correct syntax
     public String FillBinary(Integer number) throws Exception{
-        //fill binary number with 0 for correct syntax
         StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(number));
         int size = binaryString.length();
         if(size < 3){
@@ -339,9 +334,8 @@ public class ParserAssembly {
         }
         return binaryString.toString();
     }
-
+    //function for change decimal to binary
     public String TwosComplement(Integer number)throws Exception{
-        //function for change decimal to binary
         if(number >= 0){
             StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(number));
             int size = binaryString.length();
@@ -359,8 +353,8 @@ public class ParserAssembly {
             return Integer.toBinaryString(number).substring(16);
         }
     }
+    //function for print check
     public void print(){
-        //function for print check
         System.out.println(label.size());
         System.out.println(label);
         System.out.println(address.size());

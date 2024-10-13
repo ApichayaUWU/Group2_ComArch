@@ -77,6 +77,6 @@ fact .fill factorial
 mul .fill Mul
 pos1 .fill 1
 neg1 .fill -1
-n .fill 0
+n .fill 7
 fifteen .fill   15
 stack .fill 0
