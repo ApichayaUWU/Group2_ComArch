@@ -1,9 +1,9 @@
-            lw      0   4   n
-            lw      0   1   neg1
-loop        add     3   4   3
-            add     4   1   4
-            beq     4   0   done
-            beq     0   0   loop
-done        halt
+            lw      0   4   n       # reg[4] = n
+            lw      0   1   neg1    # reg[1] = -1
+loop        add     3   4   3       # sum = sum + n
+            add     4   1   4       # n = n - 1
+            beq     4   0   done    # if(n==0) done
+            beq     0   0   loop    # else loop
+done        halt                    # end of program
 neg1 .fill -1
-n .fill 10
+n .fill 11
